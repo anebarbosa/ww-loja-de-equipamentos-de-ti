@@ -1,6 +1,33 @@
 extends layout
 
 block content
-  h1 Cadastro de Produtos de Informática
-  a(href="/login") Entrar
-  a(href="/produto") Ver Produtos
+    nav
+        .container(style="font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center; height: 60px; padding: 0 20px;")
+            .pure-menu
+                ul.pure-menu-list.pure-menu-horizontal
+                    li.pure-menu-item
+                        a.pure-menu-heading(href="/") WW Equipamentos de TI
+            .pure-menu
+                ul.pure-menu-list.pure-menu-horizontal
+                    li.pure-menu-item
+                        div(style="position: relative;")
+                            input.search(
+                                type='text'
+                                name='search'
+                                placeholder='Pesquisar...'
+                                style='padding: 8px 30px 8px 8px; border-radius: 4px; border: 1px solid #ccc; width: 200px;'
+                            )
+                            i.icon-search.fa.fa-search(style="position: absolute; top: 50%; transform: translateY(-50%); right: 10px; color: #aaa;")
+            .pure-menu
+                ul.pure-menu-list.pure-menu-horizontal
+                    li.pure-menu-item
+                        a.pure-menu-link(href="/produtos") Produtos
+                    li.pure-menu-item.pure-menu-selected
+                        a.pure-menu-link(href="/login") Login
+
+    .container(style="display: flex; justify-content: center; align-items: center; height: 100vh;")
+        h1 Cadastro de Produtos de Informática
+
+    footer(style="background-color: black; color: #cccccc; height: 40px; display: flex; justify-content: center; align-items: center;")
+        .container
+            p(style="font-size: 0.8rem;") Copyright © #{new Date().getFullYear()} WW Loja de Equipamentos de TI. Todos os direitos reservados.
