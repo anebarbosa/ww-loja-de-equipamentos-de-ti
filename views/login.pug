@@ -1,17 +1,19 @@
 extends layout
 
 block content
-  h1 Login
+  .container(style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: calc(100vh - 60px);")
+    form.pure-form.pure-form-stacked(action="/login", method="post")
+      fieldset
+        div(style="text-align: left; margin-bottom: 20px;")
+          h2 Login
 
-  if error
-    p.error= error
+        if error
+          p.error= error
 
-  form.pure-form.pure-form-stacked(action="/login", method="post")
-    fieldset
-      label(for="email") Email:
-      input(type="email", id="email", name="email", required)
+        label(for="email") Email:
+        input(type="email", id="email", name="email", required style="width: 100%")
 
-      label(for="senha") Senha:
-      input(type="password", id="senha", name="senha", required)
+        label(for="senha") Senha:
+        input(type="password", id="senha", name="senha", required style="width: 100%")
 
-      button.pure-button.pure-button-primary(type="submit") Entrar
+        button.pure-button.pure-button-primary(type="submit" style="width: 100%") Entrar
