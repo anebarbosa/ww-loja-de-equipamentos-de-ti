@@ -2,7 +2,7 @@ import { config } from 'dotenv';
 import { readFileSync } from 'fs';
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getStorage, ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import multer from 'multer';
 import admin from 'firebase-admin';
 import session from 'express-session';
@@ -27,6 +27,13 @@ const firebaseConfig = {
 };
 const firebase = initializeApp(firebaseConfig);
 
+const storage = getStorage();
+
+const upload = multer({ storage: multer.memoryStorage() });
+
+app.use(upload.single('imagem'));
+
+
 // Configuração do Firebase Admin
 const serviceAccount = JSON.parse(readFileSync(process.env.SERVICE_ACCOUNT_KEY_PATH));
 
@@ -34,16 +41,6 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 const db = admin.firestore();
-
-// Multer configuration
-const storage = multer.memoryStorage(); // Store files in memory
-const upload = multer({ storage: storage });
-
-// Use the upload middleware for file uploads
-app.use(upload.single('imagem')); // 'imagem' should match the name attribute of your file input field
-
-// Get a reference to Firebase Storage
-const storageRef = getStorage(firebase);
 
 
 // Configurações do Express
@@ -57,7 +54,7 @@ app.use(express.static('public'));
 
 
 app.use(session({
-    secret: 'sua_chave_secreta',
+    secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true
 }));
@@ -65,8 +62,20 @@ app.use(session({
 
 
 // Rota principal
-app.get('/',(req,res)=>{
-    res.render('index');
+app.get('/', async (req, res) => {
+    try {
+        const produtosSnapshot = await db.collection('produtos').get();
+        const produtos = [];
+
+        produtosSnapshot.forEach(doc => {
+            produtos.push(doc.data());
+        });
+
+        res.render('index', { produtos: produtos });
+    } catch (error) {
+        console.error('Erro ao recuperar produtos:', error);
+        res.render('index', { error: error.message });
+    }
 });
 
 
@@ -94,21 +103,33 @@ app.post('/login', (req, res) => {
 
 
 // Rota para exibir a lista de produtos
-app.get('/produtos', (req, res) => {
-    // Verifica se o usuário está autenticado
-    if (!req.session.user) {
-        res.redirect('/login');
-        return;
+app.get('/produtos', async (req, res) => {
+    try {
+        // Verifica se o usuário está autenticado
+        if (!req.session.user) {
+            res.redirect('/login');
+            return;
+        }
+
+        const produtosSnapshot = await db.collection('produtos').get();
+        const produtos = [];
+
+        produtosSnapshot.forEach(doc => {
+            produtos.push(doc.data());
+        });
+
+        res.render('produtos', { produtos: produtos });
+    } catch (error) {
+        console.error('Erro ao recuperar produtos:', error);
+        res.render('produtos', { error: error.message });
     }
-    // Aqui você pode buscar os produtos do Firestore e renderizar a página de produtos
-    res.render('produtos');
 });
 
 
 // Rota para o formulário de cadastro de produtos
-app.get('/cadastro-produtos', (req, res) => {
-    res.render('cadastro');
-});
+//app.get('/cadastro-produtos', (req, res) => {
+//    res.render('cadastro');
+//});
 
 
 // Rota para lidar com o envio do formulário de cadastro de produtos
@@ -122,28 +143,32 @@ app.post('/cadastro-produtos', async (req, res) => {
     // Nome do arquivo no Firebase Storage
     const fileName = `${Date.now()}_${imagem.originalname}`;
     // Referência ao arquivo no Firebase Storage
-    const fileRef = ref(storageRef, fileName);
+    const fileRef = ref(storage, fileName);
 
     try {
         // Upload do arquivo para o Firebase Storage
-        await uploadBytes(fileRef, imagem.buffer);
+        const snapshot = await uploadBytesResumable(fileRef, imagem.buffer);
+
+        const downloadURL = await getDownloadURL(snapshot.ref);
 
         // Objeto do produto para inserção no Firestore
         const produto = {
             nome: nomeProduto,
             descricao: descricao,
             preco: parseFloat(preco), // Garantir que o preço é armazenado como um número
-            imageUrl: `https://storage.googleapis.com/${storage.bucket}/${fileName}` // URL para acessar a imagem enviada
+            imageUrl: downloadURL // URL para acessar a imagem enviada
         };
 
         // Inserir o produto no Firestore
         await db.collection('produtos').add(produto);
         
         console.log('Produto adicionado com sucesso!');
-        res.redirect('/produtos'); // Redirecionar para a lista de produtos após a inserção
+        req.session.toast = { type: 'success', message: 'Produto adicionado com sucesso!' };
+        res.status(201).redirect('/produtos');
     } catch (error) {
         console.error('Erro ao adicionar produto:', error);
-        res.render('cadastro', { error: error.message });
+        req.session.toast = { type: 'error', message: 'Erro ao adicionar produto: ' + error.message };
+        res.status(500).redirect('/produtos');
     }
 });
 

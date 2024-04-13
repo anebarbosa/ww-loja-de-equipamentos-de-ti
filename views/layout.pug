@@ -6,6 +6,8 @@ html(lang="pt-br")
     title #{title}
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css", integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls", crossorigin="anonymous")
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css")
+    script(src="https://cdn.jsdelivr.net/npm/toastify-js")
 
   body
     .container
@@ -44,3 +46,7 @@ html(lang="pt-br")
       .container(style="display: flex; justify-content: space-between; align-items: center; width: 100%;")
         p(style="font-size: 0.8rem; text-align: center; flex: 1; margin: 0;") Copyright © 2024 Todos os direitos reservados - WW Loja de Equipamentos de TI.
         p(style="font-size: 0.8rem; margin: 0; margin-right: 10px;") Mariane Barbosa Design
+
+    if toast
+      script.
+        showToast("#{toast.type}", "#{toast.message}")
