@@ -59,11 +59,19 @@ app.use(session({
     saveUninitialized: true
 }));
 
+app.use((req, res, next) => {
+    res.locals.path = req.path;
+    next();
+});
 
 
 // Rota principal
 app.get('/', async (req, res) => {
     try {
+        // Calculate the total number of items in the cart
+        const cartItemCount = req.session.cart ? req.session.cart.length : 0;
+
+        // Your existing code to fetch products from the database
         const produtosSnapshot = await db.collection('produtos').get();
         const produtos = [];
 
@@ -71,18 +79,28 @@ app.get('/', async (req, res) => {
             produtos.push(doc.data());
         });
 
-        res.render('index', { produtos: produtos });
+        // Pass cartItems along with other data to the layout template
+        res.render('index', { 
+            produtos: produtos, 
+            session: req.session.user, 
+            cartItemCount: cartItemCount,
+            cartItems: req.session.cart || [] // Ensure cartItems is not undefined
+        });
     } catch (error) {
         console.error('Erro ao recuperar produtos:', error);
-        res.render('index', { error: error.message });
+        res.render('index', { error: error.message, session: req.session.user });
     }
 });
 
 
 //Rota de tela para autenticação
-app.get('/login',(req, res)=>{ 
-    res.render('login');
-});   
+app.get('/login', (req, res) => {
+    if (req.session.user) {
+        res.redirect('/');
+        return;
+    }
+    res.render('login', { session: req.session.user });
+}); 
 
 
 // Rota para autenticação
@@ -118,10 +136,10 @@ app.get('/produtos', async (req, res) => {
             produtos.push(doc.data());
         });
 
-        res.render('produtos', { produtos: produtos });
+        res.render('produtos', { produtos: produtos, session: req.session.user });
     } catch (error) {
         console.error('Erro ao recuperar produtos:', error);
-        res.render('produtos', { error: error.message });
+        res.render('produtos', { error: error.message, session: req.session.user });
     }
 });
 
@@ -134,18 +152,22 @@ app.get('/produtos', async (req, res) => {
 
 // Rota para lidar com o envio do formulário de cadastro de produtos
 app.post('/cadastro-produtos', async (req, res) => {
-    const { nomeProduto, descricao, preco } = req.body;
-    // Acessa o arquivo enviado
-    const imagem = req.file;
-    if (!imagem) {
-        return res.status(400).send('Nenhuma imagem selecionada');
-    }
-    // Nome do arquivo no Firebase Storage
-    const fileName = `${Date.now()}_${imagem.originalname}`;
-    // Referência ao arquivo no Firebase Storage
-    const fileRef = ref(storage, fileName);
-
     try {
+        if (!req.session.user) {
+            res.redirect('/login');
+            return;
+        }
+        const { nomeProduto, descricao, preco } = req.body;
+        // Acessa o arquivo enviado
+        const imagem = req.file;
+        if (!imagem) {
+            return res.status(400).send('Nenhuma imagem selecionada');
+        }
+        // Nome do arquivo no Firebase Storage
+        const fileName = `${Date.now()}_${imagem.originalname}`;
+        // Referência ao arquivo no Firebase Storage
+        const fileRef = ref(storage, fileName);
+
         // Upload do arquivo para o Firebase Storage
         const snapshot = await uploadBytesResumable(fileRef, imagem.buffer);
 
