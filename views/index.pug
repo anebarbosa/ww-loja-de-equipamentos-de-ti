@@ -9,4 +9,4 @@ block content
         p(style="margin: 5px 0 0 0; font-weight: bold;")= produto.nome
         p(style="margin: 5px 0 0 0;")= produto.descricao
         p(style="margin: 5px 0 5px 0;") R$ #{produto.preco}
-        button.pure-button.pure-button-primary(style="margin: auto; display: block; border-radius: 20px;") Adicionar ao Carrinho
+        button.pure-button.pure-button-primary(style="margin: auto; display: block; border-radius: 20px;", onclick="addToCart('#{produto.id}')") Adicionar ao Carrinho

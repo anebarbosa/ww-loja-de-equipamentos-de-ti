@@ -1,8 +1,9 @@
 import { config } from 'dotenv';
 import { readFileSync } from 'fs';
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider } from 'firebase/auth';
 import { getStorage, ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import { OAuth2Client } from 'google-auth-library';
 import multer from 'multer';
 import admin from 'firebase-admin';
 import session from 'express-session';
@@ -30,6 +31,16 @@ const firebase = initializeApp(firebaseConfig);
 const storage = getStorage();
 
 const upload = multer({ storage: multer.memoryStorage() });
+
+const auth = getAuth(firebase);
+auth.languageCode = 'it';
+auth.useDeviceLanguage();
+
+const provider = new GoogleAuthProvider();
+provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+provider.setCustomParameters({'login_hint': 'user@example.com'});
+
+const oauth2Client = new OAuth2Client()
 
 app.use(upload.single('imagem'));
 
@@ -103,10 +114,9 @@ app.get('/login', (req, res) => {
 }); 
 
 
-// Rota para autenticação
+// Rotas para autenticação
 app.post('/login', (req, res) => {
     const { email, senha } = req.body;
-    const auth = getAuth(firebase);
     signInWithEmailAndPassword(auth, email, senha)
         .then((userCredential) => {
             // Autenticação bem-sucedida
@@ -117,6 +127,26 @@ app.post('/login', (req, res) => {
             // Tratamento de erro
             res.render('login', { error: error.message });
         });
+});
+
+app.get('/auth/google', (req, res) => {
+    const redirectUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&response_type=code&scope=email%20profile&redirect_uri=${process.env.REDIRECT_URI}`;
+    res.redirect(redirectUrl);
+});
+
+app.get('/auth/google/callback', async (req, res) => {
+    try {
+        const { code } = req.query;
+        const { tokens } = await oAuth2Client.getToken(code);
+        const credential = GoogleAuthProvider.credentialFromJSON(tokens);
+        const userCredential = await signInWithCredential(auth, credential);
+        
+        req.session.token = tokens;
+        req.session.user = userCredential.user;
+        res.redirect('/produtos');
+    } catch (error) {
+        res.render('login', { error: error.message });
+    }
 });
 
 

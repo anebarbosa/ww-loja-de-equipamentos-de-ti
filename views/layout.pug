@@ -43,14 +43,15 @@ html(lang="pt-br")
                 li.pure-menu-item.pure-menu-selected
                   a.pure-menu-link(href="/login") Login
               if path == '/'
-                li.pure-menu-item.pure-menu-selected
+                li.pure-menu-item
                   div(style="position: relative;")
-                    a.pure-menu-link(href="#" onclick="toggleDropdown(event)")
-                      i.icon-cart.fa.fa-shopping-cart(style="color: #aaa;")
-                      span.cart-count #{cartItemCount}
-                    ul.dropdown-menu(id="cartDropdown" style="display: none;")
-                      each item in cartItems
-                        li= item.name + ' - R$' + item.price
+                      a.pure-menu-link(href="#" onclick="toggleDropdown(event)", id="cartButton")
+                          i.icon-cart.fa.fa-shopping-cart(style="color: #aaa;")
+                          span.cart-count #{cartItemCount}
+                      ul.dropdown-menu(id="cartDropdown" style="display: none;")
+                          each item in cartItems
+                              li= item.nome + ' - R$' + item.preco
+
 
       block content
 
@@ -64,56 +65,59 @@ html(lang="pt-br")
         showToast("#{toast.type}", "#{toast.message}")
         
     script.
-      let cartItems = []; // Array to store cart items
+      // Define an array to store cart items
+      let cartItems = [];
 
+      // Function to add a product to the cart
       function addToCart(productId) {
-        // Find the product by productId (you might need to adjust this based on your data structure)
-        const product = produtos.find(p => p.id === productId);
-        
-        // Add the product to the cartItems array
-        cartItems.push(product);
+          // Find the product by productId (you might need to adjust this based on your data structure)
+          const product = produtos.find(p => p.id === productId);
+          
+          // Add the product to the cartItems array
+          cartItems.push(product);
 
-        // Update the dropdown menu with the new cart items
-        updateCartDropdown();
+          // Update the dropdown menu with the new cart items
+          updateCartDropdown();
       }
 
+      // Function to update the dropdown menu with cart items
       function updateCartDropdown() {
-        const cartDropdown = document.getElementById('cartDropdown');
-        
-        // Clear existing items in the dropdown menu
-        cartDropdown.innerHTML = '';
-        
-        // Add each item in the cartItems array to the dropdown menu
-        cartItems.forEach(item => {
-          const li = document.createElement('li');
-          li.textContent = `${item.nome} - R$${item.preco}`;
-          cartDropdown.appendChild(li);
-        });
+          const cartDropdown = document.getElementById('cartDropdown');
+          
+          // Clear existing items in the dropdown menu
+          cartDropdown.innerHTML = '';
+          
+          // Add each item in the cartItems array to the dropdown menu
+          cartItems.forEach(item => {
+              const li = document.createElement('li');
+              li.textContent = `${item.nome} - R$${item.preco}`;
+              cartDropdown.appendChild(li);
+          });
 
-        // Display the dropdown menu
-        cartDropdown.style.display = 'block';
+          // Display the dropdown menu
+          cartDropdown.style.display = 'block';
       }
 
       // Close the dropdown menu when clicking outside
       document.addEventListener('click', function(event) {
-        const cartDropdown = document.getElementById('cartDropdown');
-        const cartIcon = document.querySelector('.icon-cart');
-        
-        if (!cartIcon.contains(event.target) && event.target.id !== 'cartDropdownButton') {
-          cartDropdown.style.display = 'none';
-        }
+          const cartDropdown = document.getElementById('cartDropdown');
+          const cartIcon = document.querySelector('.icon-cart');
+          
+          if (!cartIcon.contains(event.target) && event.target.id !== 'cartDropdownButton') {
+              cartDropdown.style.display = 'none';
+          }
       });
 
       // Handle click event on the cart button to toggle the dropdown menu
       document.addEventListener('click', function(event) {
-        const cartDropdown = document.getElementById('cartDropdown');
-        const cartButton = document.getElementById('cartButton');
-        
-        if (event.target === cartButton) {
-          // Toggle the display of the dropdown menu
-          cartDropdown.style.display = cartDropdown.style.display === 'block' ? 'none' : 'block';
-        } else {
-          // Hide the dropdown menu if clicked outside the cart button
-          cartDropdown.style.display = 'none';
-        }
+          const cartDropdown = document.getElementById('cartDropdown');
+          const cartButton = document.getElementById('cartButton');
+          
+          if (event.target === cartButton) {
+              // Toggle the display of the dropdown menu
+              cartDropdown.style.display = cartDropdown.style.display === 'block' ? 'none' : 'block';
+          } else {
+              // Hide the dropdown menu if clicked outside the cart button
+              cartDropdown.style.display = 'none';
+          }
       });
