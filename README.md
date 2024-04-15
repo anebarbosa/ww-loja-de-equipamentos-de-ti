@@ -16,23 +16,23 @@ Como ainda não consegui subir a aplicação para o firebase, pois o hosting só
 
 ### **Página Inicial**
 A index chama a rota "/" que carrega as imagens do storage e produtos no firestore database que poderão ser adicionados ao carrinhos de compras.
-![Index](https://drive.google.com/file/d/1NURts2GbDNnLsO-vt7DgostZ_6BSLkyb/view)
+![Index](https://github.com/anebarbosa/ww-loja-de-equipamentos-de-ti/assets/143014139/0ffb96e7-ac2f-4248-b679-8680962cb549)
 
 ### **Rodapé**
 Ao rolar para baixo, vemos o rodapé.
-![Footer]((https://drive.google.com/file/d/1BQkIUTPhFGbw9-5uky1mckIZ2kJPoo3d/view))
+![Footer](https://github.com/anebarbosa/ww-loja-de-equipamentos-de-ti/assets/143014139/3021900a-f3a3-47d1-ad67-3632fa8fbd78)
 
 ### **Login**
 Ao clicar login ou tentar acessar a rota "/produtos" sem estar com sessão ativa, ele redireciona para a rota "/login".
-![Login](https://drive.google.com/file/d/10BDhiXDcA_eO6JpgG9n6CfXYwiwC14e1/view)
+![Login](https://github.com/anebarbosa/ww-loja-de-equipamentos-de-ti/assets/143014139/40efaf6b-0f78-4df0-a31a-a398592d416a)
 
 ### **Produtos**
 Ao ser autenticado pelo authentication do firebase, ele autoriza o acesso da rota "/produtos".
-![Produtos](https://drive.google.com/file/d/1j6WKEHuHmxdWbdJ_YAPi8MOEjbx6p6RL/view)
+![Produtos](https://github.com/anebarbosa/ww-loja-de-equipamentos-de-ti/assets/143014139/b78776c8-669a-4433-8f61-7021bf3fd085)
 
 ### **Cadastro**
 A página de produtos lista os produtos e suas informações e contém um botão flutuante que abre um modal para cadastro de um novo produto, com o crud atualmente funcionando.
-![Cadastro](https://drive.google.com/file/d/11Bc1nq1gSIWuaWvb1YMAJtjlNOfVz1mf/view)
+![Cadastro](https://github.com/anebarbosa/ww-loja-de-equipamentos-de-ti/assets/143014139/3548f076-47f0-4b7c-8393-e4d5c7639567)
 
 TODO:
 Correção de bug de login com Google;
