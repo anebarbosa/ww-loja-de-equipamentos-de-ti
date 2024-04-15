@@ -16,23 +16,23 @@ Como ainda não consegui subir a aplicação para o firebase, pois o hosting só
 
 ### **Página Inicial**
 A index chama a rota "/" que carrega as imagens do storage e produtos no firestore database que poderão ser adicionados ao carrinhos de compras.
-![Index](https://drive.google.com/file/d/1NURts2GbDNnLsO-vt7DgostZ_6BSLkyb/view?usp=drive_link)
+![Index](https://drive.google.com/file/d/1NURts2GbDNnLsO-vt7DgostZ_6BSLkyb/view)
 
 ### **Rodapé**
 Ao rolar para baixo, vemos o rodapé.
-![Footer]((https://drive.google.com/file/d/1BQkIUTPhFGbw9-5uky1mckIZ2kJPoo3d/view?usp=drive_link))
+![Footer]((https://drive.google.com/file/d/1BQkIUTPhFGbw9-5uky1mckIZ2kJPoo3d/view))
 
 ### **Login**
 Ao clicar login ou tentar acessar a rota "/produtos" sem estar com sessão ativa, ele redireciona para a rota "/login".
-![Login](https://drive.google.com/file/d/10BDhiXDcA_eO6JpgG9n6CfXYwiwC14e1/view?usp=drive_link)
+![Login](https://drive.google.com/file/d/10BDhiXDcA_eO6JpgG9n6CfXYwiwC14e1/view)
 
 ### **Produtos**
 Ao ser autenticado pelo authentication do firebase, ele autoriza o acesso da rota "/produtos".
-![Produtos](https://drive.google.com/file/d/1j6WKEHuHmxdWbdJ_YAPi8MOEjbx6p6RL/view?usp=drive_link)
+![Produtos](https://drive.google.com/file/d/1j6WKEHuHmxdWbdJ_YAPi8MOEjbx6p6RL/view)
 
 ### **Cadastro**
 A página de produtos lista os produtos e suas informações e contém um botão flutuante que abre um modal para cadastro de um novo produto, com o crud atualmente funcionando.
-![Cadastro](https://drive.google.com/file/d/11Bc1nq1gSIWuaWvb1YMAJtjlNOfVz1mf/view?usp=drive_link)
+![Cadastro](https://drive.google.com/file/d/11Bc1nq1gSIWuaWvb1YMAJtjlNOfVz1mf/view)
 
 TODO:
 Correção de bug de login com Google;
