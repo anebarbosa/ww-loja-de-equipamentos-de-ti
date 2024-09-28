@@ -12,9 +12,9 @@
 [Projeto desenvolvido por mim e utilizado para discussão do processo de criação de aplicações Web com Javascript para a disciplina de Autoração e Multimídia 2 do curso de Sistemas e Mídias Digitais da UFC.](https://wellingtonwfsarmento.notion.site/Criando-uma-aplica-o-Web-com-Javascript-98447010924b43768483289189ea1f92)
 
 ## **Desenvolvimento**
-Implantarei a aplicação no Railway, pois para subir a aplicação do Firebase é necessário utilizar o Cloud Functions, que é pago.
+Aplicação implantada (deploy) no Railway: https://ww-loja-de-equipamentos-de-ti-production.up.railway.app/
+Para subir o backend da aplicação no Firebase é necessário utilizar o Cloud Functions, que é pago, portanto o Railway foi escolhido.
 Também não poderia ser implantado no hosting, uma vez que não é uma aplicação estática. 
-Por hora estou exibindo imagens da aplicação em localhost.
 
 ### **Página Inicial**
 A index chama a rota "/" que carrega as imagens do storage e produtos no firestore database que poderão ser adicionados ao carrinhos de compras.
@@ -41,4 +41,3 @@ Correção de bug de login com Google;
 Correção de bug do carrinho;
 Rotas de atualização e deleção de produtos;
 Implementação de filtro;
-Fazer a aplicação funcionar em https://ww-loja-de-equipamentos-de-ti.web.app/
