@@ -7,12 +7,13 @@
 ![Firebase](https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=ffcd34)
 ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+![Railway](https://img.shields.io/badge/Railway-131415?style=for-the-badge&logo=railway&logoColor=white)
 
 # **WW Loja de equipamentos de TI**
 [Projeto desenvolvido por mim e utilizado para discussão do processo de criação de aplicações Web com Javascript para a disciplina de Autoração e Multimídia 2 do curso de Sistemas e Mídias Digitais da UFC.](https://wellingtonwfsarmento.notion.site/Criando-uma-aplica-o-Web-com-Javascript-98447010924b43768483289189ea1f92)
 
 ## **Desenvolvimento**
-Aplicação implantada (deploy) no Railway: https://ww-loja-de-equipamentos-de-ti-production.up.railway.app/
+Aplicação implantada (deploy) no Railway: https://ww-loja-de-equipamentos-de-ti-production.up.railway.app/.
 Para subir o backend da aplicação no Firebase é necessário utilizar o Cloud Functions, que é pago, portanto o Railway foi escolhido.
 Também não poderia ser implantado no hosting, uma vez que não é uma aplicação estática. 
 
