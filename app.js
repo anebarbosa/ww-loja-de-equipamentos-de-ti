@@ -54,7 +54,8 @@ app.use(upload.single('imagem'));
 
 
 // Configuração do Firebase Admin
-const serviceAccount = JSON.parse(readFileSync(process.env.SERVICE_ACCOUNT_KEY_PATH));
+//const serviceAccount = JSON.parse(readFileSync(process.env.SERVICE_ACCOUNT_KEY_PATH));
+const serviceAccount = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS)
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
