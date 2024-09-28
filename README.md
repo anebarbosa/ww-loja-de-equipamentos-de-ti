@@ -12,7 +12,9 @@
 [Projeto desenvolvido por mim e utilizado para discussão do processo de criação de aplicações Web com Javascript para a disciplina de Autoração e Multimídia 2 do curso de Sistemas e Mídias Digitais da UFC.](https://wellingtonwfsarmento.notion.site/Criando-uma-aplica-o-Web-com-Javascript-98447010924b43768483289189ea1f92)
 
 ## **Desenvolvimento**
-Como ainda não consegui subir a aplicação para o firebase, pois o hosting só usa index.html e não index.pug, estou exibindo imagens da aplicação em localhost.
+Implantarei a aplicação no Railway, pois para subir a aplicação do Firebase é necessário utilizar o Cloud Functions, que é pago.
+Também não poderia ser implantado no hosting, uma vez que não é uma aplicação estática. 
+Por hora estou exibindo imagens da aplicação em localhost.
 
 ### **Página Inicial**
 A index chama a rota "/" que carrega as imagens do storage e produtos no firestore database que poderão ser adicionados ao carrinhos de compras.
