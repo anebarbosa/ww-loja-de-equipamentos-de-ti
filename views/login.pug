@@ -17,8 +17,28 @@ block content
           label(for="senha") Senha:
           input(type="password", id="senha", name="senha", required style="width: 100%")
 
-          button.pure-button.pure-button-primary(type="submit" style="width: 100%; border-radius:20px; margin-bottom: 10px; margin-top:10px") Entrar
-          a(href="/auth/google", class="google-button pure-button", style="background-color: #ffffff; color: #000000; border-radius: 20px; width: 100%; border: 2px solid #000000; display: flex; align-items: center; justify-content: center; text-decoration: none; padding: 10px;") 
-            i.fab.fa-google(style="margin-right: 10px;")
-            | Sign in with Google
+          a(href="/esqueceu-a-senha", style="text-align: left; display: block; margin-bottom: 20px; margin-top: 20px; color: primary; text-decoration: none;") Esqueceu a senha?
 
+          button.pure-button.pure-button-primary(type="submit" style="width: 100%; border-radius:20px; margin-bottom: 10px;") Entrar
+
+          a(href="javascript:void(0)", onclick="signInWithGoogle()", class="google-button pure-button", style="background-color: #ffffff; color: #000000; border-radius: 20px; width: 100%; border: 1px solid #000000; display: flex; align-items: center; justify-content: center; text-decoration: none; padding: 10px;") 
+            i.fab.fa-google(style="margin-right: 10px;")
+            | Entrar com Google
+
+          a(href="/cadastro", class="pure-button", style="background-color: #ffffff; color: #000000; border-radius: 20px; width: 100%; border: 1px solid #000000; display: flex; align-items: center; justify-content: center; text-decoration: none; padding: 10px; margin-top:10px;") Cadastre-se
+
+  script.
+    function signInWithGoogle() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider)
+            .then((result) => {
+                // Handle successful sign-in
+                console.log('Successfully signed in with Google:', result.user);
+                // You can redirect the user to another page or perform additional actions here
+            })
+            .catch((error) => {
+                // Handle errors
+                console.error('Error signing in with Google:', error);
+                // You can display an error message to the user or perform other error handling here
+            });
+    }

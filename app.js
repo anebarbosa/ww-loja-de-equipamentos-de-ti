@@ -12,7 +12,7 @@ import express from 'express';
 config();
 
 const app = express();
-
+const displayHost = process.env.HOST || 'localhost';
 const port = process.env.PORT || 3000; //Escolha um valor que esteja entre 1025 e 65535 no .env
 
 
@@ -26,6 +26,14 @@ const firebaseConfig = {
     messagingSenderId: process.env.MESSAGING_SENDER_ID,
     appId: process.env.APP_ID
 };
+
+// Configuração do Google Auth
+const googleConfig = {
+    googleClientId: process.env.GOOGLE_CLIENT_ID,
+    googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    googleDiscoveryUrl: process.env.GOOGLE_DISCOVERY_URL,
+};
+
 const firebase = initializeApp(firebaseConfig);
 
 const storage = getStorage();
@@ -236,5 +244,5 @@ app.get('/logout', (req, res) => {
 
 // Inicialização do servidor
 app.listen(port, () => {
-    console.log(`Servidor rodando em http://localhost:${port}`);
+    console.log(`Servidor rodando em http://${displayHost}:${port}`);
 });
